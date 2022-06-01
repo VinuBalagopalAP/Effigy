@@ -30,9 +30,11 @@ class _SignUpPageState extends State<SignUpPage> {
   void dispose() {
     passwordController.dispose();
     emailController.dispose();
-
     super.dispose();
   }
+
+  /// [ passwordHidden ] is to defining the password is hidden.
+  bool passwordHidden = true;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +64,13 @@ class _SignUpPageState extends State<SignUpPage> {
                 controller: emailController,
                 cursorColor: Colors.black,
                 textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(
+                  labelText: 'Email',
+                  icon: Padding(
+                    padding: EdgeInsets.only(top: 15.0),
+                    child: Icon(Icons.email),
+                  ),
+                ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (email) =>
                     email != null && !EmailValidator.validate(email)
@@ -73,11 +81,28 @@ class _SignUpPageState extends State<SignUpPage> {
 
               /// [ TextFormField ] for [ password ]
               TextFormField(
-                obscureText: true,
+                obscureText: passwordHidden,
                 controller: passwordController,
                 cursorColor: Colors.black,
                 textInputAction: TextInputAction.next,
-                decoration: const InputDecoration(labelText: 'Password'),
+                decoration: InputDecoration(
+                  labelText: 'Password',
+                  icon: const Padding(
+                    padding: EdgeInsets.only(top: 15.0),
+                    child: Icon(Icons.lock),
+                  ),
+                  suffixIcon: IconButton(
+                    onPressed: () {
+                      /// [Toggles] the password show status
+                      setState(() {
+                        passwordHidden = !passwordHidden;
+                      });
+                    },
+                    icon: Icon(
+                      passwordHidden ? Icons.visibility_off : Icons.visibility,
+                    ),
+                  ),
+                ),
                 autovalidateMode: AutovalidateMode.onUserInteraction,
                 validator: (value) => value != null && value.length < 6
                     ? 'Password must be at least 6 characters long'
