@@ -50,9 +50,7 @@ class MyApp extends StatelessWidget {
               }
 
               /// [ AuthPage ] is shown if the user is not logged in.
-              else {
-                return const AuthPage();
-              }
+              return const AuthPage();
 
             default:
 
@@ -62,9 +60,7 @@ class MyApp extends StatelessWidget {
               }
 
               /// [ AuthPage ] is shown if the user is not logged in.
-              else {
-                return const AuthPage();
-              }
+              return const AuthPage();
           }
         },
       ),
