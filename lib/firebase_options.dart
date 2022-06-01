@@ -5,21 +5,26 @@ import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, kIsWeb, TargetPlatform;
 
 class DefaultFirebaseOptions {
+  /// [ defaultPlatform ] is a method that returns the default platform.
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
     }
 
+    /// [ TargetPlatform.android ] is the default platform.
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         return android;
 
+      /// [ TargetPlatform.iOS ] is the default platform.
       case TargetPlatform.iOS:
         return ios;
 
+      /// [ TargetPlatform.macOS ] is the default platform.
       case TargetPlatform.macOS:
         return macos;
 
+      /// [ throw UnsupportedError ] if the platform is not supported.
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -27,6 +32,7 @@ class DefaultFirebaseOptions {
     }
   }
 
+  /// [ web ] is a method that returns the default Firebase options for web.
   static const FirebaseOptions web = FirebaseOptions(
     apiKey: 'AIzaSyCChltEwnoyI7NB27_W8YERHqcsyRTTDO4',
     appId: '1:229949727471:web:7efe9ab2a4ed644501b11a',
@@ -36,6 +42,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'effigy-fluttervinu.appspot.com',
   );
 
+  /// [ android ] is a method that returns the default Firebase options for android.
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyDSLXSer13gUGS3txgAVPF4rTuAIoBvv_8',
     appId: '1:229949727471:android:9c6a2690e66b7c9501b11a',
@@ -44,6 +51,7 @@ class DefaultFirebaseOptions {
     storageBucket: 'effigy-fluttervinu.appspot.com',
   );
 
+  /// [ ios ] is a method that returns the default Firebase options for ios.
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyCBEjc_tKds7X7rjBez60PejauuZ_Tdo2g',
     appId: '1:229949727471:ios:314db946f5859ed101b11a',
@@ -55,6 +63,7 @@ class DefaultFirebaseOptions {
     iosBundleId: 'com.example.effigy',
   );
 
+  /// [ macos ] is a method that returns the default Firebase options for macos.
   static const FirebaseOptions macos = FirebaseOptions(
     apiKey: 'AIzaSyCBEjc_tKds7X7rjBez60PejauuZ_Tdo2g',
     appId: '1:229949727471:ios:314db946f5859ed101b11a',
