@@ -33,25 +33,38 @@ class MyApp extends StatelessWidget {
         stream: FirebaseAuth.instance.authStateChanges(),
 
         builder: (context, snapshot) {
-          /// [ Waiting ] for [ FirebaseAuth.instance.currentUser ] to be set.
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            /// [ Circular progress indicator ] is shown while waiting for [ FirebaseAuth.instance.currentUser ] to be set.
-            return const Center(child: CircularProgressIndicator());
-          }
+          switch (snapshot.connectionState) {
 
-          /// [ snapshot.hasError ] to show Error message if any error occurs
-          else if (snapshot.hasError) {
-            return const Center(child: Text('An error occurred'));
-          }
+            /// [ Waiting ] for [ FirebaseAuth.instance.currentUser ] to be set.
+            case ConnectionState.waiting:
 
-          /// [ snapshot.hasData ] to show [ HomePage ] if the user is logged in.
-          else if (snapshot.hasData) {
-            return const HomePage();
-          }
+              /// [ Circular progress indicator ] is shown while waiting for [ FirebaseAuth.instance.currentUser ] to be set.
+              return const Center(child: CircularProgressIndicator());
 
-          /// [ AuthPage ] is shown if the user is not logged in.
-          else {
-            return const AuthPage();
+            /// [ ConnectionState.done ] is reached when [ FirebaseAuth.instance.currentUser ] is set.
+            case ConnectionState.done:
+
+              /// [ snapshot.hasData ] to show [ HomePage ] if the user is logged in.
+              if (snapshot.hasData) {
+                return const HomePage();
+              }
+
+              /// [ AuthPage ] is shown if the user is not logged in.
+              else {
+                return const AuthPage();
+              }
+
+            default:
+
+              /// [ snapshot.hasError ] to show Error message if any error occurs
+              if (snapshot.hasError) {
+                return const Center(child: Text('An error occurred'));
+              }
+
+              /// [ AuthPage ] is shown if the user is not logged in.
+              else {
+                return const AuthPage();
+              }
           }
         },
       ),
