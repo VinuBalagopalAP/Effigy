@@ -1,161 +1,85 @@
-import 'package:effigy/main.dart';
-import 'package:email_validator/email_validator.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
-  const LoginPage({
-    Key? key,
-    required this.onClickedSignUp,
-  }) : super(key: key);
-
-  final VoidCallback onClickedSignUp;
+  const LoginPage({Key? key}) : super(key: key);
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  /// [TextEditingController] for the email field.
-  TextEditingController emailController = TextEditingController();
+/// [ googleSignIn ] is the instance for [ GoogleSignIn ]
 
-  /// [TextEditingController] for the password field.
-  TextEditingController passwordController = TextEditingController();
+final GoogleSignIn googleSignIn = GoogleSignIn(
+  /// [ scopes ] is the list of scopes for the user.
+  scopes: [
+    'email',
+  ],
+);
+
+/// [ googleSignIn.onCurrentUserChanged.listen ] is the listener for the current user, so that the user doesn't want to login again.
+
+class _LoginPageState extends State<LoginPage> {
+  GoogleSignInAccount? currentUser;
 
   @override
-  void dispose() {
-    passwordController.dispose();
-    emailController.dispose();
-    super.dispose();
+  void initState() {
+    googleSignIn.onCurrentUserChanged.listen((account) {
+      setState(() {
+        currentUser = account;
+      });
+    });
+    googleSignIn.signInSilently();
+    super.initState();
   }
-
-  /// [ passwordHidden ] is to defining the password is hidden.
-  bool passwordHidden = true;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const Center(
-              child: Text(
-                'Login',
-                style: TextStyle(
+      body: SafeArea(
+        child: SizedBox(
+          width: double.infinity,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Sign in\nwith",
+                textAlign: TextAlign.center,
+                style: GoogleFonts.openSans(
+                  fontStyle: FontStyle.italic,
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-            const SizedBox(height: 20),
-
-            /// [ TextFormField ] for [ email ]
-            TextFormField(
-              controller: emailController,
-              cursorColor: Colors.black,
-              textInputAction: TextInputAction.next,
-              decoration: const InputDecoration(
-                labelText: 'Email',
-                icon: Padding(
-                  padding: EdgeInsets.only(top: 15.0),
-                  child: Icon(Icons.email),
+              const SizedBox(height: 75),
+              // Image.network(
+              //   "https://www.google.com/images/branding/googlelogo/2x/googlelogo_color_272x92dp.png",
+              //   width: 150,
+              // ),
+              const SizedBox(height: 125),
+              Container(
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  image: const DecorationImage(
+                    image: AssetImage("assets/image/google_logo.png"),
+                  ),
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.black87,
                 ),
-              ),
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-              validator: (email) =>
-                  email != null && !EmailValidator.validate(email)
-                      ? 'Invalid email'
-                      : null,
-            ),
-            const SizedBox(height: 20),
-
-            /// [ TextFormField ] for [ password ]
-            TextFormField(
-              controller: passwordController,
-              cursorColor: Colors.black,
-              textInputAction: TextInputAction.next,
-              decoration: InputDecoration(
-                labelText: 'Password',
-                icon: const Padding(
-                  padding: EdgeInsets.only(top: 15.0),
-                  child: Icon(Icons.lock),
-                ),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    /// [Toggles] the password show status
-                    setState(() {
-                      passwordHidden = !passwordHidden;
-                    });
-                  },
-                  icon: Icon(
-                    passwordHidden ? Icons.visibility_off : Icons.visibility,
+                child: Text(
+                  "Let's get started",
+                  style: GoogleFonts.openSans(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white,
                   ),
                 ),
-              ),
-              obscureText: passwordHidden,
-              autovalidateMode: AutovalidateMode.onUserInteraction,
-            ),
-            const SizedBox(height: 20),
-
-            /// [ RichTextButton ] to toggle the [ SignUp ]
-            RichText(
-              text: TextSpan(
-                style: const TextStyle(
-                  color: Colors.black54,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w500,
-                ),
-                text: "No account?",
-                children: [
-                  TextSpan(
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = widget.onClickedSignUp,
-                    text: "Sign up",
-                    style: const TextStyle(
-                      decoration: TextDecoration.underline,
-                      color: Colors.blue,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
+              )
+            ],
+          ),
         ),
       ),
-
-      /// [ FloatingActionButton ] to [ Login ]
-      floatingActionButton: FloatingActionButton.extended(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        icon: const Icon(Icons.login_rounded),
-        onPressed: signIn,
-        label: const Text('Login'),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
-  }
-
-  Future signIn() async {
-    showDialog(
-        context: context,
-        barrierDismissible: false,
-        builder: (context) => const Center(child: CircularProgressIndicator()));
-
-    /// [ Firebase Auth ] is for login the user.
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: emailController.text.trim(),
-        password: passwordController.text.trim(),
-      );
-    } on FirebaseAuthException catch (e) {
-      debugPrint(e.code);
-    }
-
-    /// [ navigatorKey.currentState ] is for navigating to the [ Home ] screen.
-    navigatorKey.currentState!.popUntil((route) => route.isFirst);
   }
 }

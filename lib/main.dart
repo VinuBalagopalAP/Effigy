@@ -1,6 +1,6 @@
 import 'package:effigy/firebase_options.dart';
 import 'package:effigy/screens/home/home_page.dart';
-import 'package:effigy/screens/login/auth_page.dart';
+import 'package:effigy/screens/login/login_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -49,8 +49,8 @@ class MyApp extends StatelessWidget {
                 return const HomePage();
               }
 
-              /// [ AuthPage ] is shown if the user is not logged in.
-              return const AuthPage();
+              /// [ LoginPage ] is shown if the user is not logged in.
+              return const LoginPage();
 
             default:
 
@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
                 return const Center(child: Text('An error occurred'));
               }
 
-              /// [ AuthPage ] is shown if the user is not logged in.
-              return const AuthPage();
+              /// [ LoginPage ] is shown if the user is not logged in.
+              return const LoginPage();
           }
         },
       ),
