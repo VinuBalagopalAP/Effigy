@@ -1,5 +1,5 @@
 name: effigy
-description: A new Flutter project.
+description: An app which is used to store images and videos using gmail.
 
 publish_to: "none"
 
@@ -12,16 +12,16 @@ dependencies:
   flutter:
     sdk: flutter
 
-  cupertino_icons: ^1.0.4
+  cupertino_icons: ^1.0.2
   firebase_core: ^1.17.1
+  google_sign_in: ^5.3.3
   firebase_auth: ^3.3.19
-  email_validator: ^2.0.1
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-  flutter_lints: ^2.0.1
+  flutter_lints: ^2.0.0
 
 flutter:
   uses-material-design: true
