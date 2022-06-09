@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/google_sign_in_provider.dart';
 
 class AuthPage extends StatelessWidget {
   const AuthPage({Key? key}) : super(key: key);
@@ -15,7 +18,12 @@ class AuthPage extends StatelessWidget {
             children: [
               const Text('Login Page', style: TextStyle(fontSize: 30)),
               ElevatedButton.icon(
-                onPressed: () {},
+                onPressed: () {
+                  final provider =
+                      Provider.of<GoogleSignInProvider>(context, listen: false);
+
+                  provider.googleLogin();
+                },
                 label: const Text("Sign In with Google"),
                 icon: const FaIcon(FontAwesomeIcons.google),
               ),

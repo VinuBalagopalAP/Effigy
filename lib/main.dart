@@ -1,7 +1,9 @@
+import 'package:effigy/providers/google_sign_in_provider.dart';
 import 'package:effigy/screens/auth/auth.dart';
 import 'package:effigy/utils/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'firebase_options.dart';
 
 Future main() async {
@@ -21,11 +23,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Material App',
-      theme: EffigyTheme.theme,
-      debugShowCheckedModeBanner: false,
-      home: const AuthPage(),
+    return ChangeNotifierProvider(
+      create: (context) => GoogleSignInProvider(),
+      child: MaterialApp(
+        theme: EffigyTheme.theme,
+        debugShowCheckedModeBanner: false,
+        home: const AuthPage(),
+      ),
     );
   }
 }
