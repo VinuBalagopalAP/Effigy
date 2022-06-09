@@ -1,9 +1,10 @@
 import 'package:effigy/screens/auth/auth.dart';
+import 'package:effigy/utils/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'firebase_options.dart';
 
-void main() async {
+Future main() async {
   /// [ ensureInitialized ] to ensure that the Firebase app is initialized.
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -20,9 +21,11 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       title: 'Material App',
-      home: AuthPage(),
+      theme: EffigyTheme.theme,
+      debugShowCheckedModeBanner: false,
+      home: const AuthPage(),
     );
   }
 }
