@@ -39,19 +39,24 @@ class MyApp extends StatelessWidget {
               case ConnectionState.waiting:
 
                 /// [ Circular progress indicator ] is shown while waiting for [ FirebaseAuth.instance.currentUser ] to be set.
+
                 return const Center(
                   child: CircularProgressIndicator(),
                 );
 
-              /// [ ConnectionState.done ] is reached when [ FirebaseAuth.instance.currentUser ] is set.
-              case ConnectionState.done:
+              /// [ ConnectionState.active ] is reached when [ FirebaseAuth.instance.currentUser ] is set.
+
+              case ConnectionState.active:
 
                 /// [ snapshot.hasData ] to show [ HomePage ] if the user is logged in.
+
                 if (snapshot.hasData) {
+                  debugPrint("User is logged in");
                   return const HomePage();
                 }
 
                 /// [ AuthPage ] is shown if the user is not logged in.
+                debugPrint("Try to login");
                 return const AuthPage();
 
               default:
@@ -64,7 +69,7 @@ class MyApp extends StatelessWidget {
                 }
 
                 /// [ AuthPage ] is shown if the user is not logged in.
-
+                debugPrint("User not logged in");
                 return const AuthPage();
             }
           },

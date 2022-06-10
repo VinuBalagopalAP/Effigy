@@ -23,6 +23,7 @@ class AuthPage extends StatelessWidget {
                       Provider.of<GoogleSignInProvider>(context, listen: false);
 
                   provider.googleLogin();
+                  debugPrint('Google Login');
                 },
                 label: const Text("Sign In with Google"),
                 icon: const FaIcon(FontAwesomeIcons.google),
