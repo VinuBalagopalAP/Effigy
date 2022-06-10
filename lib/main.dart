@@ -56,7 +56,7 @@ class MyApp extends StatelessWidget {
                 }
 
                 /// [ AuthPage ] is shown if the user is not logged in.
-                debugPrint("Try to login");
+                debugPrint("Try to login again");
                 return const AuthPage();
 
               default:

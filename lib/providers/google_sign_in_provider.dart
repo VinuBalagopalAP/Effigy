@@ -12,22 +12,36 @@ class GoogleSignInProvider extends ChangeNotifier {
   /// [ getUser ] is a method that returns the signed in user.
   GoogleSignInAccount get getUser => user!;
 
+  /// [ googleLogin ] is a method that signs in the user.
   Future googleLogin() async {
-    final googleUser = await googleSignIn.signIn();
+    try {
+      final googleUser = await googleSignIn.signIn();
 
-    if (googleUser == null) return;
-    user = googleUser;
+      if (googleUser == null) return;
+      user = googleUser;
 
-    final googleAuth = await googleUser.authentication;
+      final googleAuth = await googleUser.authentication;
 
-    final credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth.accessToken,
+        idToken: googleAuth.idToken,
+      );
 
-    await FirebaseAuth.instance.signInWithCredential(credential);
+      await FirebaseAuth.instance.signInWithCredential(credential);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
 
     notifyListeners();
     debugPrint("Google Login Successful");
+  }
+
+  /// [ googleLogout ] is a method that signs out the user.
+  Future googleLogout() async {
+    await googleSignIn.disconnect();
+    FirebaseAuth.instance.signOut();
+    user = null;
+    notifyListeners();
+    debugPrint("Google Logout Successful");
   }
 }
