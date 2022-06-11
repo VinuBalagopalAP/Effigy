@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:effigy/api/firebase_api.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:path/path.dart';
@@ -17,6 +18,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  UploadTask? task;
   File? file;
 
   @override
@@ -96,6 +98,8 @@ class _HomePageState extends State<HomePage> {
             icon: const Icon(Icons.upload_file),
             label: const Text("Upload File"),
           ),
+          const SizedBox(height: 10),
+          // task!=null?buildUploadStatus(task!):Container();
         ],
       ),
     );
@@ -129,8 +133,25 @@ class _HomePageState extends State<HomePage> {
     final fileName = basename(file?.path ?? '');
     final destination = 'files/images/$fileName';
 
-    FirebaseApi.uploadFile(file!, destination);
+    task = FirebaseApi.uploadFile(file!, destination);
 
     debugPrint("File uploaded");
   }
+
+  Future fileDownload() async {
+    debugPrint("Downloading file");
+    if (task == null) {
+      return;
+    }
+
+    final snapshot = await task!.whenComplete(() {});
+
+    final urlDownload = await snapshot.ref.getDownloadURL();
+
+    debugPrint("Donwload URL: $urlDownload");
+
+    debugPrint("File downloaded");
+  }
+
+  
 }
