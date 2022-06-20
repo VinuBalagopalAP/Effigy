@@ -99,7 +99,11 @@ class _HomePageState extends State<HomePage> {
             label: const Text("Upload File"),
           ),
           const SizedBox(height: 10),
-          // task!=null?buildUploadStatus(task!):Container();
+          task != null
+              ? buildUploadStatus(task!)
+              : Container(
+                  color: Colors.red,
+                ),
         ],
       ),
     );
@@ -153,5 +157,20 @@ class _HomePageState extends State<HomePage> {
     debugPrint("File downloaded");
   }
 
-  
+  buildUploadStatus(UploadTask task) => StreamBuilder<TaskSnapshot>(
+        stream: task.snapshotEvents,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("Error: ${snapshot.error}");
+          }
+          if (snapshot.hasData) {
+            final event = snapshot.data!;
+            final progress = event.bytesTransferred / event.totalBytes;
+
+            return Text('Uploaded: ${(progress * 100).toStringAsFixed(2)}%');
+          } else {
+            return const Text("waiting for the upload");
+          }
+        },
+      );
 }
