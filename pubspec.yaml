@@ -22,6 +22,8 @@ dependencies:
   firebase_storage: ^10.2.17
   file_picker: ^3.0.4
   path: ^1.8.1
+  hexcolor: ^2.0.7
+  flutter_svg: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -31,3 +33,5 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+  assets:
+    - assets/

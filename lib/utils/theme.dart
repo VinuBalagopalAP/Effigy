@@ -9,5 +9,6 @@ class EffigyTheme {
 
   static ThemeData get theme => ThemeData(
         primaryTextTheme: GoogleFonts.poppinsTextTheme(),
+        scaffoldBackgroundColor: Colors.white.withOpacity(0.1),
       );
 }
