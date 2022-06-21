@@ -23,7 +23,10 @@ class EffigyButton extends StatelessWidget {
               HexColor('#C30B2C'),
               HexColor('#790BF0'),
             ],
-            stops: const [0.15, 0.75],
+            stops: const [
+              0.15,
+              0.75,
+            ],
             begin: FractionalOffset.topCenter,
             end: FractionalOffset.bottomCenter,
             tileMode: TileMode.repeated,

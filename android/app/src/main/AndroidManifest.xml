@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.effigy">
    <application
-        android:label="effigy"
+        android:label="Effigy"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

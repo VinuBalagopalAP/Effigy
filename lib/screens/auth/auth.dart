@@ -13,7 +13,7 @@ class AuthPage extends StatelessWidget {
     return Scaffold(
       body: SafeArea(
         child: SizedBox(
-          width: double.infinity,
+          width: MediaQuery.of(context).size.width,
           child: Stack(
             children: [
               SizedBox(

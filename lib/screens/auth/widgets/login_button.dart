@@ -13,18 +13,17 @@ class LoginGoogle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         SizedBox(
-          width: displayWidth(context) * 0.275,
+          // color: Colors.amber,
+          width: displayWidth(context) * 0.3,
           child: Text(
             'Login',
+            textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: displayWidth(context) * 0.1,
+              fontSize: displayWidth(context) * 0.09,
               color: Colors.white,
               fontWeight: FontWeight.w600,
             ),
           ),
-        ),
-        const SizedBox(
-          width: 20,
         ),
         SvgPicture.asset(
           'assets/google.svg',

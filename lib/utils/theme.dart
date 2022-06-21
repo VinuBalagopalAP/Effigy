@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EffigyTheme {
@@ -9,6 +10,8 @@ class EffigyTheme {
 
   static ThemeData get theme => ThemeData(
         primaryTextTheme: GoogleFonts.poppinsTextTheme(),
-        scaffoldBackgroundColor: Colors.white.withOpacity(0.1),
+        appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle.light,
+        ),
       );
 }
