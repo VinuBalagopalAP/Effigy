@@ -19,7 +19,7 @@ class LoginGoogle extends StatelessWidget {
             'Login',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: displayWidth(context) * 0.09,
+              fontSize: displayWidth(context) * 0.08,
               color: Colors.white,
               fontWeight: FontWeight.w600,
             ),

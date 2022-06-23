@@ -1,14 +1,13 @@
 import 'dart:io';
 
 import 'package:effigy/api/firebase_api.dart';
+import 'package:effigy/screens/home/widgets/custom_avatar.dart';
+
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:path/path.dart';
-
-import '../../providers/google_sign_in_provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -31,80 +30,50 @@ class _HomePageState extends State<HomePage> {
         file != null ? basename(file?.path ?? '') : "No file selected";
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Home Page'),
-        centerTitle: true,
-        actions: [
-          TextButton(
-            onPressed: () {
-              final provider =
-                  Provider.of<GoogleSignInProvider>(context, listen: false);
-
-              provider.googleLogout();
-            },
-            child: const Text(
-              "Logout",
-              style: TextStyle(
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: Text(
-              'Welcome\n${user.displayName!}',
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-          const SizedBox(height: 20),
-          CircleAvatar(
-            radius: 50,
-            backgroundImage: NetworkImage(
-              user.photoURL!,
-            ),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'Email: ${user.email!}',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const SizedBox(height: 20),
-          ElevatedButton.icon(
-            onPressed: selectFile,
-            icon: const Icon(Icons.attach_file),
-            label: const Text("Select File"),
-          ),
-          const SizedBox(height: 20),
-          Text(
-            'File Name: $fileName',
-            style: const TextStyle(
-              fontSize: 18,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          ElevatedButton.icon(
-            onPressed: uploadFile,
-            icon: const Icon(Icons.upload_file),
-            label: const Text("Upload File"),
-          ),
-          const SizedBox(height: 10),
-          task != null
-              ? buildUploadStatus(task!)
-              : Container(
-                  color: Colors.red,
+      body: SafeArea(
+        child: Container(
+          color: Colors.black,
+          child: Column(
+            children: [
+              CustomAvatar(user: user),
+              const SizedBox(height: 20),
+              Text(
+                'Email: ${user.email!}',
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
                 ),
-        ],
+              ),
+              const SizedBox(height: 20),
+              ElevatedButton.icon(
+                onPressed: selectFile,
+                icon: const Icon(Icons.attach_file),
+                label: const Text("Select File"),
+              ),
+              const SizedBox(height: 20),
+              Text(
+                'File Name: $fileName',
+                style: const TextStyle(
+                  fontSize: 18,
+                  color: Colors.white,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              ElevatedButton.icon(
+                onPressed: uploadFile,
+                icon: const Icon(Icons.upload_file),
+                label: const Text("Upload File"),
+              ),
+              const SizedBox(height: 10),
+              task != null
+                  ? buildUploadStatus(task!)
+                  : Container(
+                      color: Colors.red,
+                    ),
+            ],
+          ),
+        ),
       ),
     );
   }
