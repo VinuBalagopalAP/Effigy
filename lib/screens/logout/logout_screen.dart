@@ -1,6 +1,7 @@
 import 'package:effigy/common/effigy_button.dart';
 import 'package:effigy/providers/google_sign_in_provider.dart';
 import 'package:effigy/common/user_profile_pic.dart';
+import 'package:effigy/screens/logout/widgets/back_button.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -28,7 +29,7 @@ class _LogoutScreenState extends State<LogoutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const BackButton(),
+            const CustomBackButton(),
             UserProfilePic(
               user: widget.user,
               radius: 50,
